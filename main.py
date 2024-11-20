@@ -1,22 +1,33 @@
 import sys
 
 from PyQt6 import QtCore
-from PyQt6.QtGui import QPixmap, QCursor
+from PyQt6.QtGui import QPixmap, QCursor, QIcon
 from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QRadioButton, QVBoxLayout, \
     QWidget, QCheckBox
+
+step = 4
+h = 101 * step
+w_back = 15 * step
+w_spine = 13 * step
+w_main = 65 * step
 
 
 class Example(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        self.state = {
+            'title': 'PILLBOX',
+            'album': 'KOMM NIGHT REIN',
+            'ser_number': '#TMPL003',
+            'lable': 'TEMPLE DRIVE'
+        }
+
+    def rerender(self):
         self.setGeometry(0, 0, 1000, 800)
         self.setWindowTitle('Конструктор J-Card')
-        step = 4
-        h = 101 * step
-        w_back = 15 * step
-        w_spine = 13 * step
-        w_main = 65 * step
+        self.setWindowIcon(QIcon('favicon.png'))
+
         self.cassete = QLabel(self)
         self.cassete.move(50, 50)
         self.cassete.resize(w_back + w_spine + w_main, h)
@@ -40,10 +51,11 @@ class Example(QMainWindow):
         self.cassete_spine.setObjectName('cassete_spine')
         self.cassete_spine.setStyleSheet(
             '#cassete_spine {'
-            'background-color: #f1f5f9;'
+            'background-color: #e2e8f0;'
             'border-top: 1px solid #022c22;'
             'border-bottom: 1px solid #022c22;'
-            'border-left: 1px solid #022c22;}'
+            'border-left: 1px solid #022c22;'
+            '}'
         )
 
         self.cassete_main = QLabel(self.cassete)
@@ -53,12 +65,12 @@ class Example(QMainWindow):
         self.cassete_main.setStyleSheet(
             '#cassete_main {'
             'background-color: #f1f5f9;'
-            'border: 1px solid #022c22;}'
+            'border: 1px solid #022c22;'
+            '}'
         )
 
         self.pixmap = QPixmap('default.jpg')
         self.image = QLabel(self.cassete_main)
-        self.image.move(0, 0)
         self.image.resize(w_main, w_main)
         self.image.setPixmap(self.pixmap)
         self.image.setScaledContents(True)
@@ -66,10 +78,11 @@ class Example(QMainWindow):
         self.image.setStyleSheet(
             '#image {'
             'border: 1px solid #022c22;'
-            'border-bottom: none;}'
+            'border-bottom: none;'
+            '}'
         )
 
-        self.cassete_title = QLabel('PILLBOX', self.cassete_main)
+        self.cassete_title = QLabel(self.state['title'], self.cassete_main)
         self.cassete_title.setObjectName('cassete_title')
         self.cassete_title.setStyleSheet(
             '#cassete_title {'
@@ -80,8 +93,7 @@ class Example(QMainWindow):
         )
         self.cassete_title.move(20, 272)
 
-        t = 'KOMM NIGHT REIN'
-        t = ''.join(list(map(lambda x: x + '\n', t)))[:-1]
+        t = ''.join(list(map(lambda x: x + '\n', self.state['album'])))[:-1]
         self.spine_text = QLabel(t, self.cassete_spine)
         self.spine_text.setObjectName('spine_text')
         self.spine_text.setStyleSheet(
@@ -89,10 +101,9 @@ class Example(QMainWindow):
             'font-size: 14px;'
             '}'
         )
-        self.spine_text.move(round((w_spine - self.spine_text.sizeHint().width()) / 2), 10)
+        self.spine_text.move(round((w_spine - self.spine_text.sizeHint().width()) / 2), 14)
 
-        t2 = '#TMPL003'
-        self.spine_text2 = QLabel(t2, self.cassete_spine)
+        self.spine_text2 = QLabel(self.state['ser_number'], self.cassete_spine)
         self.spine_text2.setObjectName('spine_text2')
         self.spine_text2.setStyleSheet(
             '#spine_text2 {'
@@ -102,20 +113,19 @@ class Example(QMainWindow):
         )
         self.spine_text2.move(round((w_spine - self.spine_text2.sizeHint().width()) / 2), h - 30)
 
-        t3 = 'TEMPLE DRIVE'
-        t3 = ''.join(list(map(lambda x: x + '\n', t3)))[:-1]
-        self.spine_text3 = QLabel(t3, self.cassete_back)
-        self.spine_text3.setObjectName('spine_text3')
-        self.spine_text3.setStyleSheet(
-            '#spine_text3 {'
+        t3 = ''.join(list(map(lambda x: x + '\n', self.state['lable'])))[:-1]
+        self.back_text = QLabel(t3, self.cassete_back)
+        self.back_text.setObjectName('back_text')
+        self.back_text.setStyleSheet(
+            '#back_text {'
             'font-size: 12px;'
             'border: 1px solid #777;'
             'padding: 4px;'
             '}'
         )
-        self.spine_text3.move(
-            round((w_back - self.spine_text3.sizeHint().width()) / 2),
-            round((h - self.spine_text3.sizeHint().height()) / 2)
+        self.back_text.move(
+            round((w_back - self.back_text.sizeHint().width()) / 2),
+            round((h - self.back_text.sizeHint().height()) / 2)
         )
 
         self.form = QLabel(self)
@@ -152,29 +162,29 @@ class Example(QMainWindow):
 
         self.title = QLineEdit(self.form)
         self.title.setPlaceholderText('Название композитора')
-        self.title.setText('PILLBOX')
+        self.title.setText(self.state['title'])
         self.title.move(25, 135)
         self.title.resize(200, 30)
         self.title.setObjectName('names_field')
 
         self.album = QLineEdit(self.form)
         self.album.setPlaceholderText('Название альбома/трека')
-        self.album.setText('KOMM NIGHT REIN')
+        self.album.setText(self.state['album'])
         self.album.move(25, 180)
         self.album.resize(200, 30)
         self.album.setObjectName('names_field')
 
         self.ser_number = QLineEdit(self.form)
         self.ser_number.setPlaceholderText('Номер кассаты из тиража')
-        self.ser_number.setText('#TMPL003')
+        self.ser_number.setText(self.state['ser_number'])
         self.ser_number.move(25, 225)
         self.ser_number.resize(200, 30)
         self.ser_number.setObjectName('names_field')
 
         self.lable = QLineEdit(self.form)
         self.lable.setPlaceholderText('Название лейбла')
-        self.lable.setText('TEMPLE DRIVE')
-        self.lable.move(25, 225)
+        self.lable.setText(self.state['lable'])
+        self.lable.move(25, 275)
         self.lable.resize(200, 30)
         self.lable.setObjectName('names_field')
 
@@ -197,10 +207,27 @@ class Example(QMainWindow):
             '}'
         )
         self.submit.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.submit.clicked.connect(self.form_submit)
+
+    def form_submit(self):
+        self.state = {
+            'title': self.title.text(),
+            'album': self.album.text(),
+            'ser_number': self.ser_number.text(),
+            'lable': self.lable.text()
+        }
+        self.cassete_title.setText(self.state['title'])
+        self.spine_text.setText(''.join(list(map(lambda x: x + '\n', self.state['album'])))[:-1])
+        self.spine_text.move(round((w_spine - self.spine_text.sizeHint().width()) / 2), 14)
+        print(self.spine_text.sizeHint().width(), self.spine_text.sizeHint().height())
+        self.spine_text2.setText(self.state['ser_number'])
+        self.spine_text2.move(round((w_spine - self.spine_text2.sizeHint().width()) / 2), h - 30)
+        self.back_text.setText(''.join(list(map(lambda x: x + '\n', self.state['lable'])))[:-1])
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = Example()
+    ex.rerender()
     ex.show()
     sys.exit(app.exec())
