@@ -131,14 +131,12 @@ class Example(QMainWindow):
         self.form = QLabel(self)
         self.form.move(500, 50)
         self.form.setObjectName('form')
-        self.form.resize(400, 400)
-        self.setStyleSheet(
+        self.form.resize(400, 500)
+        self.form.setStyleSheet(
             '#form {'
             'background: #d4d4d8;'
             'border-radius: 6px;'
             '}'
-        )
-        self.form.setStyleSheet(
             '#radio-el {'
             'color: #022c22;'
             '}'
@@ -184,13 +182,13 @@ class Example(QMainWindow):
         self.lable = QLineEdit(self.form)
         self.lable.setPlaceholderText('Название лейбла')
         self.lable.setText(self.state['lable'])
-        self.lable.move(25, 275)
+        self.lable.move(25, 270)
         self.lable.resize(200, 30)
         self.lable.setObjectName('names_field')
 
         self.submit = QPushButton('Собрать дизайн', self.form)
         self.submit.setObjectName('submit')
-        self.submit.move(25, h - 64)
+        self.submit.move(25, 332)
         self.submit.resize(200, 35)
         self.submit.setStyleSheet(
             '#submit {'
@@ -209,7 +207,47 @@ class Example(QMainWindow):
         self.submit.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.submit.clicked.connect(self.form_submit)
 
+        # self.color =
+
+        self.save = QPushButton('Сохранить настройки в файл', self.form)
+        self.save.setObjectName('save')
+        self.save.setStyleSheet(
+            '#save {'
+            'background: #d6d3d1;'
+            'color: #022c22;'
+            'border: 1px solid #022c22;'
+            'padding: 2px 4px;'
+            'border-radius: 2px;'
+            '}'
+            '#save:hover {'
+            'background: #a8a29e;'
+            '}'
+        )
+        self.save.move(25, 400)
+        self.save.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.save.clicked.connect(self.form_save)
+
+    def form_save(self):
+        pass
+
     def form_submit(self):
+        a1 = 'normal'
+        a2 = 'none'
+        a3 = '400'
+        if self.radio_italic.isChecked():
+            a1 = 'italic'
+        if self.radio_caps.isChecked():
+            a2 = 'uppercase'
+        if self.radio_bold.isChecked():
+            a3 = '700'
+        self.setStyleSheet(
+            '#cassete_title, #spine_text, #spine_text2, #back_text {'
+            'font-style: ' + a1 + ';'
+                                  'text-transform: ' + a2 + ';'
+                                                            'font-weight: ' + a3 + ';'
+                                                                                   '}'
+        )
+
         self.state = {
             'title': self.title.text(),
             'album': self.album.text(),
@@ -219,7 +257,6 @@ class Example(QMainWindow):
         self.cassete_title.setText(self.state['title'])
         self.spine_text.setText(''.join(list(map(lambda x: x + '\n', self.state['album'])))[:-1])
         self.spine_text.move(round((w_spine - self.spine_text.sizeHint().width()) / 2), 14)
-        print(self.spine_text.sizeHint().width(), self.spine_text.sizeHint().height())
         self.spine_text2.setText(self.state['ser_number'])
         self.spine_text2.move(round((w_spine - self.spine_text2.sizeHint().width()) / 2), h - 30)
         self.back_text.setText(''.join(list(map(lambda x: x + '\n', self.state['lable'])))[:-1])
