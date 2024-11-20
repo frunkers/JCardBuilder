@@ -2,8 +2,8 @@ import sys
 
 from PyQt6 import QtCore
 from PyQt6.QtGui import QPixmap, QCursor, QIcon
-from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QRadioButton, QVBoxLayout, \
-    QWidget, QCheckBox
+from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QCheckBox, QInputDialog, \
+    QColorDialog
 
 step = 4
 h = 101 * step
@@ -27,6 +27,13 @@ class Example(QMainWindow):
         self.setGeometry(0, 0, 1000, 800)
         self.setWindowTitle('Конструктор J-Card')
         self.setWindowIcon(QIcon('favicon.png'))
+
+        self.pixmap_bg = QPixmap('bg.png')
+        self.image_bg = QLabel(self)
+        self.image_bg.resize(self.width(), self.height())
+        self.image_bg.setPixmap(self.pixmap_bg)
+        self.image_bg.setScaledContents(True)
+        self.image_bg.setObjectName('image')
 
         self.cassete = QLabel(self)
         self.cassete.move(50, 50)
@@ -119,7 +126,7 @@ class Example(QMainWindow):
         self.back_text.setStyleSheet(
             '#back_text {'
             'font-size: 12px;'
-            'border: 1px solid #777;'
+            'border: 1px solid #9ca3af;'
             'padding: 4px;'
             '}'
         )
@@ -136,6 +143,7 @@ class Example(QMainWindow):
             '#form {'
             'background: #d4d4d8;'
             'border-radius: 6px;'
+            'border: 1px solid #022c22;'
             '}'
             '#radio-el {'
             'color: #022c22;'
@@ -207,7 +215,23 @@ class Example(QMainWindow):
         self.submit.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.submit.clicked.connect(self.form_submit)
 
-        # self.color =
+        self.color = QPushButton('Выбрать\nцвет', self.form)
+        self.color.setObjectName('color')
+        self.color.move(400 - 25 - self.color.sizeHint().width(), 135)
+        self.color.setStyleSheet(
+            '#color {'
+            'background: #5eead4;'
+            'color: #022c22;'
+            'border: 2px solid #0f766e;'
+            'padding: 10px;'
+            'border-radius: 4px;'
+            '}'
+            '#color:hover {'
+            'background: #2dd4bf;'
+            '}'
+        )
+        self.color.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.color.clicked.connect(self.form_color)
 
         self.save = QPushButton('Сохранить настройки в файл', self.form)
         self.save.setObjectName('save')
@@ -217,7 +241,7 @@ class Example(QMainWindow):
             'color: #022c22;'
             'border: 1px solid #022c22;'
             'padding: 2px 4px;'
-            'border-radius: 2px;'
+            'border-radius: 3px;'
             '}'
             '#save:hover {'
             'background: #a8a29e;'
@@ -228,7 +252,14 @@ class Example(QMainWindow):
         self.save.clicked.connect(self.form_save)
 
     def form_save(self):
-        pass
+        name, ok_pressed = QInputDialog.getText(self, "Сохранить как", "Введите имя файла: ")
+        if ok_pressed:
+            pass
+
+    def form_color(self):
+        self.color = QColorDialog.getColor()
+        if self.color.isValid():
+            pass
 
     def form_submit(self):
         a1 = 'normal'
@@ -241,11 +272,11 @@ class Example(QMainWindow):
         if self.radio_bold.isChecked():
             a3 = '700'
         self.setStyleSheet(
-            '#cassete_title, #spine_text, #spine_text2, #back_text {'
-            'font-style: ' + a1 + ';'
-                                  'text-transform: ' + a2 + ';'
-                                                            'font-weight: ' + a3 + ';'
-                                                                                   '}'
+            '#cassete_title, #spine_text, #spine_text2, #back_text {' +
+            'font-style: ' + a1 + ';' +
+            'text-transform: ' + a2 + ';' +
+            'font-weight: ' + a3 + ';' +
+            '}'
         )
 
         self.state = {
