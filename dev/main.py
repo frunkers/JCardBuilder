@@ -9,13 +9,6 @@ from form import Form
 class Example(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.state = {
-            'title': 'PILLBOX',
-            'album': 'KOMM NIGHT REIN',
-            'ser_number': '#TMPL003',
-            'lable': 'TEMPLE DRIVE',
-        }
-        self.color_content = '#022c22'
         self.initUI()
 
     def initUI(self):
@@ -28,8 +21,8 @@ class Example(QMainWindow):
         self.image_bg.setPixmap(self.pixmap_bg)
         self.image_bg.setScaledContents(True)
         self.image_bg.setObjectName('image')
-        self.cassette = Cassette(self, self.state)
-        self.form = Form(self, self.state, self.cassette)
+        self.cassette = Cassette(self)
+        self.form = Form(self, self.cassette)
 
 
 if __name__ == '__main__':

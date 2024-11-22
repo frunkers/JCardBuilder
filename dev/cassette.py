@@ -1,12 +1,12 @@
 from PyQt6.QtWidgets import QWidget, QGraphicsDropShadowEffect, QLabel
 from PyQt6.QtGui import QPixmap
+from store import store
 
 
 class Cassette(QWidget):
-    def __init__(self, parent, state):
+    def __init__(self, parent):
         super().__init__()
         self.parent = parent
-        self.state = state
         step = 4
         self.h = 101 * step
         self.w_back = 15 * step
@@ -14,14 +14,14 @@ class Cassette(QWidget):
         self.w_main = 65 * step
         self.initUI()
         self.update_content()
-        self.reset_styles()
+        self.update_styles()
 
     def initUI(self):
         self.cassette = QLabel(self.parent)
         self.cassette.move(50, 50)
         self.cassette.resize(self.w_back + self.w_spine + self.w_main, self.h)
 
-        self.cassette_back = QLabel(self)
+        self.cassette_back = QLabel(self.parent)
         self.cassette_back.resize(self.w_back, self.h)
         self.cassette_back.move(50, 50)
         self.cassette_back.setObjectName('cassette_back')
@@ -112,12 +112,12 @@ class Cassette(QWidget):
         self.cassette.setGraphicsEffect(effect_cassette)
 
     def update_content(self):
-        self.cassette_title.setText(self.state['title'])
-        self.spine_text.setText(''.join(list(map(lambda x: x + '\n', self.state['album'])))[:-1])
-        self.spine_text2.setText(self.state['ser_number'])
-        self.back_text.setText(''.join(list(map(lambda x: x + '\n', self.state['lable'])))[:-1])
+        self.cassette_title.setText(store.state['title'])
+        self.spine_text.setText(''.join(list(map(lambda x: x + '\n', store.state['album'])))[:-1])
+        self.spine_text2.setText(store.state['ser_number'])
+        self.back_text.setText(''.join(list(map(lambda x: x + '\n', store.state['lable'])))[:-1])
 
-    def reset_styles(self):
+    def update_styles(self):
         self.cassette_title.move(20, 272)
         self.spine_text.move(round((self.w_spine - self.spine_text.sizeHint().width()) / 2), 14)
         self.spine_text2.move(round((self.w_spine - self.spine_text2.sizeHint().width()) / 2), self.h - 30)
@@ -125,11 +125,11 @@ class Cassette(QWidget):
             round((self.w_back - self.back_text.sizeHint().width()) / 2),
             round((self.h - self.back_text.sizeHint().height()) / 2)
         )
-        self.setStyleSheet(
-            '#cassete_title, #spine_text, #spine_text2, #back_text {'
-            'color: #022c22;'
-            'font-style: normal;'
-            'text-transform: none;'
-            'font-weight: normal;'
+        self.parent.setStyleSheet(
+            '#cassette_title, #spine_text, #spine_text2, #back_text {' +
+            'color:' + store.state['color'] + ';' +
+            'font-style: ' + store.state['style'] + ';' +
+            'text-transform: ' + store.state['transform'] + ';' +
+            'font-weight: ' + store.state['weight'] + ';' +
             '}'
         )

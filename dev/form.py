@@ -1,14 +1,14 @@
 from PyQt6 import QtCore
 from PyQt6.QtGui import QCursor
-from PyQt6.QtWidgets import QWidget, QLabel, QLineEdit, QPushButton, QCheckBox, QGraphicsDropShadowEffect, QInputDialog, \
-    QColorDialog
+from PyQt6.QtWidgets import QWidget, QLabel, QLineEdit, QPushButton, QCheckBox
+from PyQt6.QtWidgets import QGraphicsDropShadowEffect, QInputDialog, QColorDialog
+from store import store
 
 
 class Form(QWidget):
-    def __init__(self, parent, state, cassette):
+    def __init__(self, parent, cassette):
         super().__init__()
         self.parent = parent
-        self.state = state
         self.cassette = cassette
         self.initUI()
         self.update_placeholders()
@@ -134,31 +134,24 @@ class Form(QWidget):
 
         self.form_reset = QPushButton('Очистить форму', self.form)
         self.form_reset.setObjectName('form_btn')
-        self.form_reset.setStyleSheet = self.save.style()
         self.form_reset.move(25, 432)
         self.form_reset.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.form_reset.clicked.connect(self.form_reset_action)
 
     def update_placeholders(self):
-        self.title.setText(self.state['title'])
-        self.album.setText(self.state['album'])
-        self.ser_number.setText(self.state['ser_number'])
-        self.lable.setText(self.state['lable'])
+        self.title.setText(store.state['title'])
+        self.album.setText(store.state['album'])
+        self.ser_number.setText(store.state['ser_number'])
+        self.lable.setText(store.state['lable'])
 
     def form_reset_action(self):
-        self.state = {
-            'title': 'PILLBOX',
-            'album': 'KOMM NIGHT REIN',
-            'ser_number': '#TMPL003',
-            'lable': 'TEMPLE DRIVE'
-        }
-        self.cassette.update_content()
-        self.cassette.reset_styles()
+        store.reset_state()
         self.update_placeholders()
         self.radio_italic.setChecked(False)
         self.radio_caps.setChecked(False)
         self.radio_bold.setChecked(False)
-        self.color_content = '#022c22'
+        self.cassette.update_content()
+        self.cassette.update_styles()
 
     def form_save(self):
         name, ok_pressed = QInputDialog.getText(self.parent, 'Сохранить как', 'Введите имя файла: ')
@@ -168,29 +161,21 @@ class Form(QWidget):
     def form_color(self):
         color = QColorDialog.getColor()
         if color.isValid():
-            self.color_content = color.name()
+            store.state['color'] = color.name()
 
     def form_submit(self):
-        a1 = 'normal'
-        a2 = 'none'
-        a3 = '400'
         if self.radio_italic.isChecked():
-            a1 = 'italic'
+            store.state['style'] = 'italic'
         if self.radio_caps.isChecked():
-            a2 = 'uppercase'
+            store.state['transform'] = 'uppercase'
         if self.radio_bold.isChecked():
-            a3 = '700'
-        self.setStyleSheet(
-            '#cassete_title, #spine_text, #spine_text2, #back_text {' +
-            'font-style: ' + a1 + ';' +
-            'text-transform: ' + a2 + ';' +
-            'font-weight: ' + a3 + ';' +
-            'color: ' + self.color_content + ';' +
-            '}'
-        )
-        self.state = {
+            store.state['weight'] = '700'
+        store.update_state({
+            **store.state,
             'title': self.title.text(),
             'album': self.album.text(),
             'ser_number': self.ser_number.text(),
-            'lable': self.lable.text()
-        }
+            'lable': self.lable.text(),
+        })
+        self.cassette.update_content()
+        self.cassette.update_styles()
