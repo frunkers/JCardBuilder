@@ -3,8 +3,9 @@ from PyQt6.QtGui import QPixmap
 
 
 class Cassette(QWidget):
-    def __init__(self, state):
+    def __init__(self, parent, state):
         super().__init__()
+        self.parent = parent
         self.state = state
         step = 4
         self.h = 101 * step
@@ -12,25 +13,19 @@ class Cassette(QWidget):
         self.w_spine = 13 * step
         self.w_main = 65 * step
         self.initUI()
+        self.update_content()
 
     def initUI(self):
-        self.pixmap_bg = QPixmap('bg.png')
-        self.image_bg = QLabel(self)
-        self.image_bg.resize(self.width(), self.height())
-        self.image_bg.setPixmap(self.pixmap_bg)
-        self.image_bg.setScaledContents(True)
-        self.image_bg.setObjectName('image')
+        self.cassette = QLabel(self.parent)
+        self.cassette.move(50, 50)
+        self.cassette.resize(self.w_back + self.w_spine + self.w_main, self.h)
 
-        self.cassete = QLabel(self)
-        self.cassete.move(50, 50)
-        self.cassete.resize(self.w_back + self.w_spine + self.w_main, self.h)
-
-        self.cassete_back = QLabel(self)
-        self.cassete_back.resize(self.w_back, self.h)
-        self.cassete_back.move(50, 50)
-        self.cassete_back.setObjectName('cassete_back')
-        self.cassete_back.setStyleSheet(
-            '#cassete_back {'
+        self.cassette_back = QLabel(self)
+        self.cassette_back.resize(self.w_back, self.h)
+        self.cassette_back.move(50, 50)
+        self.cassette_back.setObjectName('cassette_back')
+        self.cassette_back.setStyleSheet(
+            '#cassette_back {'
             'background-color: #f1f5f9;'
             'border-top: 1px solid #022c22;'
             'border-bottom: 1px solid #022c22;'
@@ -38,12 +33,12 @@ class Cassette(QWidget):
             '}'
         )
 
-        self.cassete_spine = QLabel(self.cassete)
-        self.cassete_spine.move(self.w_back, 0)
-        self.cassete_spine.resize(self.w_spine, self.h)
-        self.cassete_spine.setObjectName('cassete_spine')
-        self.cassete_spine.setStyleSheet(
-            '#cassete_spine {'
+        self.cassette_spine = QLabel(self.cassette)
+        self.cassette_spine.move(self.w_back, 0)
+        self.cassette_spine.resize(self.w_spine, self.h)
+        self.cassette_spine.setObjectName('cassette_spine')
+        self.cassette_spine.setStyleSheet(
+            '#cassette_spine {'
             'background-color: #e2e8f0;'
             'border-top: 1px solid #022c22;'
             'border-bottom: 1px solid #022c22;'
@@ -51,19 +46,19 @@ class Cassette(QWidget):
             '}'
         )
 
-        self.cassete_main = QLabel(self.cassete)
-        self.cassete_main.move(self.w_back + self.w_spine, 0)
-        self.cassete_main.resize(self.w_main, self.h)
-        self.cassete_main.setObjectName('cassete_main')
-        self.cassete_main.setStyleSheet(
-            '#cassete_main {'
+        self.cassette_main = QLabel(self.cassette)
+        self.cassette_main.move(self.w_back + self.w_spine, 0)
+        self.cassette_main.resize(self.w_main, self.h)
+        self.cassette_main.setObjectName('cassette_main')
+        self.cassette_main.setStyleSheet(
+            '#cassette_main {'
             'background-color: #f1f5f9;'
             'border: 1px solid #022c22;'
             '}'
         )
 
         self.pixmap = QPixmap('default.jpg')
-        self.image = QLabel(self.cassete_main)
+        self.image = QLabel(self.cassette_main)
         self.image.resize(self.w_main, self.w_main)
         self.image.setPixmap(self.pixmap)
         self.image.setScaledContents(True)
@@ -75,16 +70,16 @@ class Cassette(QWidget):
             '}'
         )
 
-        self.cassete_title = QLabel(self.cassete_main)
-        self.cassete_title.setObjectName('cassete_title')
-        self.cassete_title.setStyleSheet(
-            '#cassete_title {'
+        self.cassette_title = QLabel(self.cassette_main)
+        self.cassette_title.setObjectName('cassette_title')
+        self.cassette_title.setStyleSheet(
+            '#cassette_title {'
             'font-size: 28px;'
             'font-family: monospace;'
             '}'
         )
 
-        self.spine_text = QLabel(self.cassete_spine)
+        self.spine_text = QLabel(self.cassette_spine)
         self.spine_text.setObjectName('spine_text')
         self.spine_text.setStyleSheet(
             '#spine_text {'
@@ -92,7 +87,7 @@ class Cassette(QWidget):
             '}'
         )
 
-        self.spine_text2 = QLabel(self.cassete_spine)
+        self.spine_text2 = QLabel(self.cassette_spine)
         self.spine_text2.setObjectName('spine_text2')
         self.spine_text2.setStyleSheet(
             '#spine_text2 {'
@@ -100,7 +95,7 @@ class Cassette(QWidget):
             '}'
         )
 
-        self.back_text = QLabel(self.cassete_back)
+        self.back_text = QLabel(self.cassette_back)
         self.back_text.setObjectName('back_text')
         self.back_text.setStyleSheet(
             '#back_text {'
@@ -110,14 +105,14 @@ class Cassette(QWidget):
             '}'
         )
 
-        effect_cassete = QGraphicsDropShadowEffect()
-        effect_cassete.setOffset(0, 0)
-        effect_cassete.setBlurRadius(40)
-        self.cassete.setGraphicsEffect(effect_cassete)
+        effect_cassette = QGraphicsDropShadowEffect()
+        effect_cassette.setOffset(0, 0)
+        effect_cassette.setBlurRadius(40)
+        self.cassette.setGraphicsEffect(effect_cassette)
 
     def update_content(self):
-        self.cassete_title.setText(self.state['title'])
-        self.cassete_title.move(20, 272)
+        self.cassette_title.setText(self.state['title'])
+        self.cassette_title.move(20, 272)
         self.spine_text.setText(''.join(list(map(lambda x: x + '\n', self.state['album'])))[:-1])
         self.spine_text.move(round((self.w_spine - self.spine_text.sizeHint().width()) / 2), 14)
         self.spine_text2.setText(self.state['ser_number'])
