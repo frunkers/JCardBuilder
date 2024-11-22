@@ -21,15 +21,15 @@ class Example(QMainWindow):
     def initUI(self):
         self.setGeometry(0, 0, 1000, 800)
         self.setWindowTitle('Конструктор J-Card')
-        self.setWindowIcon(QIcon('favicon.png'))
-        self.pixmap_bg = QPixmap('bg.png')
+        self.setWindowIcon(QIcon('dev/accets/favicon.png'))
+        self.pixmap_bg = QPixmap('dev/accets/bg.png')
         self.image_bg = QLabel(self)
         self.image_bg.resize(self.width(), self.height())
         self.image_bg.setPixmap(self.pixmap_bg)
         self.image_bg.setScaledContents(True)
         self.image_bg.setObjectName('image')
         self.cassette = Cassette(self, self.state)
-        self.form = Form(self, self.state)
+        self.form = Form(self, self.state, self.cassette)
 
 
 if __name__ == '__main__':

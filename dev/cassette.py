@@ -14,6 +14,7 @@ class Cassette(QWidget):
         self.w_main = 65 * step
         self.initUI()
         self.update_content()
+        self.reset_styles()
 
     def initUI(self):
         self.cassette = QLabel(self.parent)
@@ -57,7 +58,7 @@ class Cassette(QWidget):
             '}'
         )
 
-        self.pixmap = QPixmap('default.jpg')
+        self.pixmap = QPixmap('dev/accets/default.jpg')
         self.image = QLabel(self.cassette_main)
         self.image.resize(self.w_main, self.w_main)
         self.image.setPixmap(self.pixmap)
@@ -112,13 +113,23 @@ class Cassette(QWidget):
 
     def update_content(self):
         self.cassette_title.setText(self.state['title'])
-        self.cassette_title.move(20, 272)
         self.spine_text.setText(''.join(list(map(lambda x: x + '\n', self.state['album'])))[:-1])
-        self.spine_text.move(round((self.w_spine - self.spine_text.sizeHint().width()) / 2), 14)
         self.spine_text2.setText(self.state['ser_number'])
-        self.spine_text2.move(round((self.w_spine - self.spine_text2.sizeHint().width()) / 2), self.h - 30)
         self.back_text.setText(''.join(list(map(lambda x: x + '\n', self.state['lable'])))[:-1])
+
+    def reset_styles(self):
+        self.cassette_title.move(20, 272)
+        self.spine_text.move(round((self.w_spine - self.spine_text.sizeHint().width()) / 2), 14)
+        self.spine_text2.move(round((self.w_spine - self.spine_text2.sizeHint().width()) / 2), self.h - 30)
         self.back_text.move(
             round((self.w_back - self.back_text.sizeHint().width()) / 2),
             round((self.h - self.back_text.sizeHint().height()) / 2)
+        )
+        self.setStyleSheet(
+            '#cassete_title, #spine_text, #spine_text2, #back_text {'
+            'color: #022c22;'
+            'font-style: normal;'
+            'text-transform: none;'
+            'font-weight: normal;'
+            '}'
         )

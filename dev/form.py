@@ -5,11 +5,13 @@ from PyQt6.QtWidgets import QWidget, QLabel, QLineEdit, QPushButton, QCheckBox, 
 
 
 class Form(QWidget):
-    def __init__(self, parent, state):
+    def __init__(self, parent, state, cassette):
         super().__init__()
         self.parent = parent
         self.state = state
+        self.cassette = cassette
         self.initUI()
+        self.update_placeholders()
 
     def initUI(self):
         self.form = QLabel(self.parent)
@@ -150,23 +152,16 @@ class Form(QWidget):
             'ser_number': '#TMPL003',
             'lable': 'TEMPLE DRIVE'
         }
-        self.update_content()
+        self.cassette.update_content()
+        self.cassette.reset_styles()
         self.update_placeholders()
         self.radio_italic.setChecked(False)
         self.radio_caps.setChecked(False)
         self.radio_bold.setChecked(False)
-        self.setStyleSheet(
-            '#cassete_title, #spine_text, #spine_text2, #back_text {'
-            'color: #022c22;'
-            'font-style: normal;'
-            'text-transform: none;'
-            'font-weight: normal;'
-            '}'
-        )
         self.color_content = '#022c22'
 
     def form_save(self):
-        name, ok_pressed = QInputDialog.getText(self, 'Сохранить как', 'Введите имя файла: ')
+        name, ok_pressed = QInputDialog.getText(self.parent, 'Сохранить как', 'Введите имя файла: ')
         if ok_pressed:
             pass
 
@@ -199,5 +194,3 @@ class Form(QWidget):
             'ser_number': self.ser_number.text(),
             'lable': self.lable.text()
         }
-
-        self.update_content()
