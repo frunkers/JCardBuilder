@@ -5,13 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5bb0c113-5217-4436-8219-88b47d42fe88" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/dev/db/db.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/list_cassettes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/accets/bg-about.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/accets/favicon-about.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/accets/jcard.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/form_info.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/cassette.py" beforeDir="false" afterPath="$PROJECT_DIR$/dev/cassette.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/dev/form.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/dev/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/store.py" beforeDir="false" afterPath="$PROJECT_DIR$/dev/store.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +53,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\jCardEdit\dev\accets" />
       <recent name="D:\jCardEdit\dev" />
       <recent name="D:\jCardEdit\build" />
       <recent name="D:\jCardEdit\accets" />

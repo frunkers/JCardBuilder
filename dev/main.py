@@ -1,10 +1,11 @@
 import sys
 
 from PyQt6.QtGui import QPixmap, QIcon
-from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel
+from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QPushButton
 from cassette import Cassette
 from form import Form
 from list_cassettes import ListCassettes
+from form_info import FormInfo
 
 
 class Example(QMainWindow):
@@ -25,6 +26,13 @@ class Example(QMainWindow):
         self.cassette = Cassette(self)
         self.form = Form(self, self.cassette)
         self.list_cassettes = ListCassettes(self, self.form)
+        self.btn_info = QPushButton('О программе', self)
+        self.btn_info.clicked.connect(self.btn_info_action)
+        self.btn_info.move(self.width() - 50 - self.btn_info.width() + 1, 600)
+        self.form_info = FormInfo()
+
+    def btn_info_action(self):
+        self.form_info.show()
 
 
 if __name__ == '__main__':

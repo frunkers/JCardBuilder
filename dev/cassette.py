@@ -112,9 +112,9 @@ class Cassette(QWidget):
 
     def update_content(self):
         self.cassette_title.setText(store.state[store.active_cassette]['title'])
-        self.spine_text.setText(''.join(list(map(lambda x: x + '\n', store.state[store.active_cassette]['album'])))[:-1])
+        self.spine_text.setText('\n'.join(list(store.state[store.active_cassette]['album'])))
         self.spine_text2.setText(store.state[store.active_cassette]['ser_number'])
-        self.back_text.setText(''.join(list(map(lambda x: x + '\n', store.state[store.active_cassette]['lable'])))[:-1])
+        self.back_text.setText('\n'.join(list(store.state[store.active_cassette]['lable'])))
         self.pixmap.load(store.state[store.active_cassette]['image-url'])
         self.image.setPixmap(self.pixmap)
 
