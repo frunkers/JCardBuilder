@@ -5,9 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5bb0c113-5217-4436-8219-88b47d42fe88" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/dev/db/db.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/list_cassettes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/cassette.py" beforeDir="false" afterPath="$PROJECT_DIR$/dev/cassette.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/form.py" beforeDir="false" afterPath="$PROJECT_DIR$/dev/form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/dev/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/store.py" beforeDir="false" afterPath="$PROJECT_DIR$/dev/store.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -102,6 +105,9 @@
       <updated>1731758840029</updated>
     </task>
     <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.csv" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />

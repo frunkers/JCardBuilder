@@ -58,7 +58,7 @@ class Cassette(QWidget):
             '}'
         )
 
-        self.pixmap = QPixmap(store.state['image-url'])
+        self.pixmap = QPixmap(store.state[store.active_cassette]['image-url'])
         self.image = QLabel(self.cassette_main)
         self.image.resize(self.w_main, self.w_main)
         self.image.setPixmap(self.pixmap)
@@ -111,23 +111,23 @@ class Cassette(QWidget):
         self.cassette.setGraphicsEffect(effect_cassette)
 
     def update_content(self):
-        self.cassette_title.setText(store.state['title'])
-        self.spine_text.setText(''.join(list(map(lambda x: x + '\n', store.state['album'])))[:-1])
-        self.spine_text2.setText(store.state['ser_number'])
-        self.back_text.setText(''.join(list(map(lambda x: x + '\n', store.state['lable'])))[:-1])
-        self.pixmap.load(store.state['image-url'])
+        self.cassette_title.setText(store.state[store.active_cassette]['title'])
+        self.spine_text.setText(''.join(list(map(lambda x: x + '\n', store.state[store.active_cassette]['album'])))[:-1])
+        self.spine_text2.setText(store.state[store.active_cassette]['ser_number'])
+        self.back_text.setText(''.join(list(map(lambda x: x + '\n', store.state[store.active_cassette]['lable'])))[:-1])
+        self.pixmap.load(store.state[store.active_cassette]['image-url'])
         self.image.setPixmap(self.pixmap)
 
     def update_styles(self):
         self.parent.setStyleSheet(
             '#cassette_title, #spine_text, #spine_text2, #back_text {' +
-            'color:' + store.state['color'] + ';' +
-            'font-style: ' + store.state['style'] + ';' +
-            'text-transform: ' + store.state['transform'] + ';' +
-            'font-weight: ' + store.state['weight'] + ';' +
+            'color:' + store.state[store.active_cassette]['color'] + ';' +
+            'font-style: ' + store.state[store.active_cassette]['style'] + ';' +
+            'text-transform: ' + store.state[store.active_cassette]['transform'] + ';' +
+            'font-weight: ' + store.state[store.active_cassette]['weight'] + ';' +
             '}' +
             '#cassette_title {' +
-            'font-size: ' + store.state['title-size'] + ';' +
+            'font-size: ' + store.state[store.active_cassette]['title-size'] + ';' +
             '}'
         )
         self.cassette_title.setGeometry(

@@ -4,6 +4,7 @@ from PyQt6.QtGui import QPixmap, QIcon
 from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel
 from cassette import Cassette
 from form import Form
+from list_cassettes import ListCassettes
 
 
 class Example(QMainWindow):
@@ -12,7 +13,7 @@ class Example(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        self.setGeometry(0, 0, 1000, 800)
+        self.setGeometry(0, 0, 950, 800)
         self.setWindowTitle('Конструктор J-Card')
         self.setWindowIcon(QIcon('dev/accets/favicon.png'))
         self.pixmap_bg = QPixmap('dev/accets/bg.png')
@@ -23,6 +24,7 @@ class Example(QMainWindow):
         self.image_bg.setObjectName('image')
         self.cassette = Cassette(self)
         self.form = Form(self, self.cassette)
+        self.list_cassettes = ListCassettes(self, self.form)
 
 
 if __name__ == '__main__':

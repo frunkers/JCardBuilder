@@ -96,7 +96,7 @@ class Form(QWidget):
 
         self.size = QComboBox(self.form)
         self.size.addItems(['22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px', '38px', '40px'])
-        self.size.setCurrentText(store.state['title-size'])
+        self.size.setCurrentText(store.state[store.active_cassette]['title-size'])
         self.size.move(146, 70)
         self.size.currentTextChanged.connect(self.form_size)
 
@@ -160,7 +160,7 @@ class Form(QWidget):
         self.image.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.image.clicked.connect(self.form_image)
 
-        self.save = QPushButton('Сохранить настройки в файл', self.form)
+        self.save = QPushButton('Сохранить настройки кассеты', self.form)
         self.save.setObjectName('form_btn')
         self.save.move(25, 400)
         self.save.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
@@ -175,53 +175,63 @@ class Form(QWidget):
     def form_image(self):
         fileName, filter = QFileDialog().getOpenFileName(self.form, 'Имя файла:', '', '*jpg, *jpeg, *png')
         if fileName:
-            store.state['image-url'] = fileName
+            store.state[store.active_cassette]['image-url'] = fileName
 
     def update_placeholders(self):
-        self.title.setText(store.state['title'])
-        self.album.setText(store.state['album'])
-        self.ser_number.setText(store.state['ser_number'])
-        self.lable.setText(store.state['lable'])
+        self.title.setText(store.state[store.active_cassette]['title'])
+        self.album.setText(store.state[store.active_cassette]['album'])
+        self.ser_number.setText(store.state[store.active_cassette]['ser_number'])
+        self.lable.setText(store.state[store.active_cassette]['lable'])
 
     def form_size(self, text):
-        store.update_state({
-            **store.state,
-            'title-size': text
-        })
+        store.state[store.active_cassette]['title-size'] = text
 
     def form_reset_action(self):
         store.reset_state()
+        if store.state[store.active_cassette]['style'] == 'italic':
+            self.radio_italic.setChecked(True)
+        else:
+            self.radio_italic.setChecked(False)
+        if store.state[store.active_cassette]['transform'] == 'uppercase':
+            self.radio_caps.setChecked(True)
+        else:
+            self.radio_caps.setChecked(False)
+        if store.state[store.active_cassette]['weight'] == 'bold':
+            self.radio_bold.setChecked(True)
+        else:
+            self.radio_bold.setChecked(False)
+        self.size.setCurrentText(store.state[store.active_cassette]['title-size'])
         self.update_placeholders()
-        self.radio_italic.setChecked(False)
-        self.radio_caps.setChecked(False)
-        self.radio_bold.setChecked(False)
-        self.size.setCurrentText(store.state['title-size'])
         self.cassette.update_content()
         self.cassette.update_styles()
 
     def form_save(self):
-        name, ok_pressed = QInputDialog.getText(self.parent, 'Сохранить как', 'Введите имя файла: ')
+        name, ok_pressed = QInputDialog.getText(
+            self.parent,
+            'Сохранить как',
+            'Введите краткое название.\nНапример: моя кассета.'
+        )
         if ok_pressed:
             pass
 
     def form_color(self):
         color = QColorDialog.getColor()
         if color.isValid():
-            store.state['color'] = color.name()
+            store.state[store.active_cassette]['color'] = color.name()
+
+    def form_radios(self):
+        if self.radio_italic.isChecked():
+            store.state[store.active_cassette]['style'] = 'italic'
+        if self.radio_caps.isChecked():
+            store.state[store.active_cassette]['transform'] = 'uppercase'
+        if self.radio_bold.isChecked():
+            store.state[store.active_cassette]['weight'] = '700'
 
     def form_submit(self):
-        if self.radio_italic.isChecked():
-            store.state['style'] = 'italic'
-        if self.radio_caps.isChecked():
-            store.state['transform'] = 'uppercase'
-        if self.radio_bold.isChecked():
-            store.state['weight'] = '700'
-        store.update_state({
-            **store.state,
-            'title': self.title.text(),
-            'album': self.album.text(),
-            'ser_number': self.ser_number.text(),
-            'lable': self.lable.text(),
-        })
+        self.form_radios()
+        store.state[store.active_cassette]['title'] = self.title.text()
+        store.state[store.active_cassette]['album'] = self.album.text()
+        store.state[store.active_cassette]['ser_number'] = self.ser_number.text()
+        store.state[store.active_cassette]['lable'] = self.lable.text()
         self.cassette.update_content()
         self.cassette.update_styles()
