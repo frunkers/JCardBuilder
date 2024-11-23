@@ -58,7 +58,7 @@ class Cassette(QWidget):
             '}'
         )
 
-        self.pixmap = QPixmap('dev/accets/default.jpg')
+        self.pixmap = QPixmap(store.state['image-url'])
         self.image = QLabel(self.cassette_main)
         self.image.resize(self.w_main, self.w_main)
         self.image.setPixmap(self.pixmap)
@@ -115,6 +115,8 @@ class Cassette(QWidget):
         self.spine_text.setText(''.join(list(map(lambda x: x + '\n', store.state['album'])))[:-1])
         self.spine_text2.setText(store.state['ser_number'])
         self.back_text.setText(''.join(list(map(lambda x: x + '\n', store.state['lable'])))[:-1])
+        self.pixmap.load(store.state['image-url'])
+        self.image.setPixmap(self.pixmap)
 
     def update_styles(self):
         self.parent.setStyleSheet(

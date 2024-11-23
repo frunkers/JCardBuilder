@@ -14,6 +14,7 @@ class Store:
             'style': 'normal',
             'transform': 'none',
             'title-size': '28px',
+            'image-url': 'dev/accets/default.jpg',
         }
 
     def update_state(self, new_state):

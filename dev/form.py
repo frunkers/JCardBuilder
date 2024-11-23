@@ -173,9 +173,9 @@ class Form(QWidget):
         self.form_reset.clicked.connect(self.form_reset_action)
 
     def form_image(self):
-        fileName, filter = QFileDialog().getOpenFileName(self.form)
+        fileName, filter = QFileDialog().getOpenFileName(self.form, 'Имя файла:', '', '*jpg, *jpeg, *png')
         if fileName:
-            print(fileName)
+            store.state['image-url'] = fileName
 
     def update_placeholders(self):
         self.title.setText(store.state['title'])
