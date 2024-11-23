@@ -1,6 +1,6 @@
 from PyQt6 import QtCore
 from PyQt6.QtGui import QCursor
-from PyQt6.QtWidgets import QWidget, QLabel, QLineEdit, QPushButton, QCheckBox
+from PyQt6.QtWidgets import QWidget, QLabel, QLineEdit, QPushButton, QCheckBox, QFileDialog
 from PyQt6.QtWidgets import QGraphicsDropShadowEffect, QInputDialog, QColorDialog, QComboBox
 from store import store
 
@@ -139,6 +139,27 @@ class Form(QWidget):
         self.color.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.color.clicked.connect(self.form_color)
 
+        self.image = QPushButton('Выбрать\nизображение', self.form)
+        self.image.setObjectName('image')
+        self.image.setGeometry(
+            400 - 25 - 104, 205,
+            100, 100
+        )
+        self.image.setStyleSheet(
+            '#image {'
+            'background: #d6d3d1;'
+            'color: #022c22;'
+            'border: 1px solid #292524;'
+            'padding: 10px;'
+            'border-radius: 3px;'
+            '}'
+            '#image:hover {'
+            'background: #a8a29e;'
+            '}'
+        )
+        self.image.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.image.clicked.connect(self.form_image)
+
         self.save = QPushButton('Сохранить настройки в файл', self.form)
         self.save.setObjectName('form_btn')
         self.save.move(25, 400)
@@ -150,6 +171,11 @@ class Form(QWidget):
         self.form_reset.move(25, 432)
         self.form_reset.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.form_reset.clicked.connect(self.form_reset_action)
+
+    def form_image(self):
+        fileName, filter = QFileDialog().getOpenFileName(self.form)
+        if fileName:
+            print(fileName)
 
     def update_placeholders(self):
         self.title.setText(store.state['title'])
