@@ -91,7 +91,7 @@ class Form(QWidget):
         self.size_label.move(146, 25)
 
         self.size = QComboBox(self.form)
-        self.size.addItems(['24px', '26px', '28px', '30px', '32px'])
+        self.size.addItems(['22px', '24px', '26px', '28px', '30px', '32px', '34px', '36px', '38px', '40px'])
         self.size.setCurrentText(store.state['title-size'])
         self.size.move(146, 70)
         self.size.currentTextChanged.connect(self.form_size)

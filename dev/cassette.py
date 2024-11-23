@@ -128,10 +128,24 @@ class Cassette(QWidget):
             'font-size: ' + store.state['title-size'] + ';' +
             '}'
         )
-        self.cassette_title.move(20, 272)
-        self.spine_text.move(round((self.w_spine - self.spine_text.sizeHint().width()) / 2), 14)
-        self.spine_text2.move(round((self.w_spine - self.spine_text2.sizeHint().width()) / 2), self.h - 30)
-        self.back_text.move(
+        self.cassette_title.setGeometry(
+            20, 272,
+            self.cassette_title.sizeHint().width(),
+            self.cassette_title.sizeHint().height()
+        )
+        self.spine_text.setGeometry(
+            round((self.w_spine - self.spine_text.sizeHint().width()) / 2), 14,
+            self.spine_text.sizeHint().width(),
+            self.spine_text.sizeHint().height()
+        )
+        self.spine_text2.setGeometry(
+            round((self.w_spine - self.spine_text2.sizeHint().width()) / 2), self.h - 30,
+            self.spine_text2.sizeHint().width(),
+            self.spine_text2.sizeHint().height()
+        )
+        self.back_text.setGeometry(
             round((self.w_back - self.back_text.sizeHint().width()) / 2),
-            round((self.h - self.back_text.sizeHint().height()) / 2)
+            round((self.h - self.back_text.sizeHint().height()) / 2),
+            self.back_text.sizeHint().width(),
+            self.back_text.sizeHint().height()
         )
