@@ -75,7 +75,6 @@ class Cassette(QWidget):
         self.cassette_title.setObjectName('cassette_title')
         self.cassette_title.setStyleSheet(
             '#cassette_title {'
-            'font-size: 28px;'
             'font-family: monospace;'
             '}'
         )
@@ -118,18 +117,21 @@ class Cassette(QWidget):
         self.back_text.setText(''.join(list(map(lambda x: x + '\n', store.state['lable'])))[:-1])
 
     def update_styles(self):
-        self.cassette_title.move(20, 272)
-        self.spine_text.move(round((self.w_spine - self.spine_text.sizeHint().width()) / 2), 14)
-        self.spine_text2.move(round((self.w_spine - self.spine_text2.sizeHint().width()) / 2), self.h - 30)
-        self.back_text.move(
-            round((self.w_back - self.back_text.sizeHint().width()) / 2),
-            round((self.h - self.back_text.sizeHint().height()) / 2)
-        )
         self.parent.setStyleSheet(
             '#cassette_title, #spine_text, #spine_text2, #back_text {' +
             'color:' + store.state['color'] + ';' +
             'font-style: ' + store.state['style'] + ';' +
             'text-transform: ' + store.state['transform'] + ';' +
             'font-weight: ' + store.state['weight'] + ';' +
+            '}' +
+            '#cassette_title {' +
+            'font-size: ' + store.state['title-size'] + ';' +
             '}'
+        )
+        self.cassette_title.move(20, 272)
+        self.spine_text.move(round((self.w_spine - self.spine_text.sizeHint().width()) / 2), 14)
+        self.spine_text2.move(round((self.w_spine - self.spine_text2.sizeHint().width()) / 2), self.h - 30)
+        self.back_text.move(
+            round((self.w_back - self.back_text.sizeHint().width()) / 2),
+            round((self.h - self.back_text.sizeHint().height()) / 2)
         )

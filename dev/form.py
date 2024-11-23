@@ -1,7 +1,7 @@
 from PyQt6 import QtCore
 from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import QWidget, QLabel, QLineEdit, QPushButton, QCheckBox
-from PyQt6.QtWidgets import QGraphicsDropShadowEffect, QInputDialog, QColorDialog
+from PyQt6.QtWidgets import QGraphicsDropShadowEffect, QInputDialog, QColorDialog, QComboBox
 from store import store
 
 
@@ -64,7 +64,7 @@ class Form(QWidget):
         self.radio_bold.setObjectName('radio-el')
 
         self.title = QLineEdit(self.form)
-        self.title.setPlaceholderText('Название композитора')
+        self.title.setPlaceholderText('Название муз. группы')
         self.title.move(25, 135)
         self.title.resize(200, 30)
         self.title.setObjectName('names_field')
@@ -86,6 +86,15 @@ class Form(QWidget):
         self.lable.move(25, 270)
         self.lable.resize(200, 30)
         self.lable.setObjectName('names_field')
+
+        self.size_label = QLabel('Размер\nмуз. группы', self.form)
+        self.size_label.move(146, 25)
+
+        self.size = QComboBox(self.form)
+        self.size.addItems(['24px', '26px', '28px', '30px', '32px'])
+        self.size.setCurrentText(store.state['title-size'])
+        self.size.move(146, 70)
+        self.size.currentTextChanged.connect(self.form_size)
 
         self.submit = QPushButton('Собрать дизайн', self.form)
         self.submit.setObjectName('submit')
@@ -144,12 +153,19 @@ class Form(QWidget):
         self.ser_number.setText(store.state['ser_number'])
         self.lable.setText(store.state['lable'])
 
+    def form_size(self, text):
+        store.update_state({
+            **store.state,
+            'title-size': text
+        })
+
     def form_reset_action(self):
         store.reset_state()
         self.update_placeholders()
         self.radio_italic.setChecked(False)
         self.radio_caps.setChecked(False)
         self.radio_bold.setChecked(False)
+        self.size.setCurrentText(store.state['title-size'])
         self.cassette.update_content()
         self.cassette.update_styles()
 

@@ -12,7 +12,8 @@ class Store:
             'color': '#022c22',
             'weight': '400',
             'style': 'normal',
-            'transform': 'none'
+            'transform': 'none',
+            'title-size': '28px',
         }
 
     def update_state(self, new_state):
