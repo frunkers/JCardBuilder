@@ -209,10 +209,14 @@ class Form(QWidget):
         name, ok_pressed = QInputDialog.getText(
             self.parent,
             'Сохранить как',
-            'Введите краткое название.\nНапример: моя кассета.'
+            'Введите краткое название.\nНапример: моя кассета.\n'
+            'Нельзя использовать: default, default2'
         )
-        if ok_pressed:
-            pass
+        if name == 'default' or name == 'default2':
+            self.form_save()
+        else:
+            if ok_pressed:
+                store.push_cassette(name)
 
     def form_color(self):
         color = QColorDialog.getColor()
@@ -222,10 +226,16 @@ class Form(QWidget):
     def form_radios(self):
         if self.radio_italic.isChecked():
             store.state[store.active_cassette]['style'] = 'italic'
+        else:
+            store.state[store.active_cassette]['style'] = 'normal'
         if self.radio_caps.isChecked():
             store.state[store.active_cassette]['transform'] = 'uppercase'
+        else:
+            store.state[store.active_cassette]['transform'] = 'none'
         if self.radio_bold.isChecked():
             store.state[store.active_cassette]['weight'] = '700'
+        else:
+            store.state[store.active_cassette]['weight'] = '400'
 
     def form_submit(self):
         self.form_radios()
